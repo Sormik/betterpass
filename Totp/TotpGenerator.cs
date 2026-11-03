@@ -258,12 +258,16 @@ namespace BetterPass
 		}
 
 		// "123456" -> "123 456", "12345678" -> "1234 5678"
-		public static string FormatCode(string str)
+		/// <summary>
+		/// Digit groups for display ("123456" -> "123", "456"). The groups are
+		/// drawn with a separator; the code itself never contains one.
+		/// </summary>
+		public static string[] SplitCode(string str)
 		{
-			if(string.IsNullOrEmpty(str)) return string.Empty;
-			if((str.Length < 6) || ((str.Length % 2) != 0)) return str;
-			int h = str.Length / 2;
-			return str.Substring(0, h) + " " + str.Substring(h);
+			if(string.IsNullOrEmpty(str)) return new string[0];
+			if(str.Length < 6) return new string[] { str };
+			int h = (str.Length + 1) / 2;
+			return new string[] { str.Substring(0, h), str.Substring(h) };
 		}
 
 		// ===================== otpauth:// =====================

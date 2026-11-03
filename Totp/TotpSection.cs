@@ -41,8 +41,9 @@ namespace BetterPass
 		private Control m_tbTitle;
 		private Control m_tbUserName;
 
-		private TotpRing m_ring;
-		private TextBox m_tbCode;
+		private const string TipCopy = "Leertaste, Strg+C oder Doppelklick kopiert den Code";
+
+		private TotpCodeView m_view;
 		private SecureTextBoxEx m_tbKey;
 		private Button m_btnShowKey;
 		private NumericUpDown m_nudDigits;
@@ -51,8 +52,6 @@ namespace BetterPass
 		private TextBox m_tbIssuer;
 		private ToolTip m_tt;
 		private Timer m_timer;
-		private Font m_fontCode;
-		private Font m_fontRing;
 
 		private bool m_bLoading = false;
 		private bool m_bViewOnly = false;     // Entry opened read-only
@@ -90,36 +89,26 @@ namespace BetterPass
 			m_bViewOnly = (m_form.EditModeEx == PwEditMode.ViewReadOnlyEntry);
 
 			int y = l.UrlBox.Top + l.Pitch;
-			int nTab = l.InsertRows(y, 4);
+			int nTab = l.InsertRows(y, 5);
 
 			Font fBase = l.TabEntry.Font;
 			int nTbH = l.TextBoxHeight;
 			m_tt = new ToolTip();
 
-			// ----- Row 1: code -----
-			l.AddLabel("TOTP Code:", l.LabelX, y);
+			// ----- Rows 1-2: code card -----
+			int nCardH = l.Pitch + nTbH;
+			l.AddLabel("TOTP Code:", l.LabelX, y + (nCardH - nTbH) / 2);
 
-			int nRing = Math.Max(nTbH, l.Pitch - 3);
-			m_fontRing = new Font(fBase.FontFamily, Math.Max(6f, fBase.Size * 0.85f));
-			m_ring = new TotpRing();
-			m_ring.Bounds = new Rectangle(l.FieldX, y + (nTbH - nRing) / 2, nRing, nRing);
-			m_ring.Font = m_fontRing;
-			l.Add(m_ring);
+			m_view = new TotpCodeView();
+			m_view.Font = fBase;
+			m_view.Bounds = new Rectangle(l.FieldX, y, l.RightX - l.FieldX, nCardH);
+			m_view.TabIndex = nTab++;
+			m_view.CopyRequested += this.OnCopyRequested;
+			l.Add(m_view);
+			m_tt.SetToolTip(m_view, TipCopy);
+			y += 2 * l.Pitch;
 
-			m_fontCode = new Font(FontFamily.GenericMonospace, fBase.Size + 1.5f, FontStyle.Bold);
-			m_tbCode = new TextBox();
-			m_tbCode.ReadOnly = true;
-			m_tbCode.Font = m_fontCode;
-			m_tbCode.AutoSize = false;
-			int xCode = l.FieldX + nRing + l.Gap;
-			m_tbCode.Bounds = new Rectangle(xCode, y, l.RightX - xCode, nTbH);
-			m_tbCode.TabIndex = nTab++;
-			m_tbCode.DoubleClick += this.OnCodeDoubleClick;
-			l.Add(m_tbCode);
-			m_tt.SetToolTip(m_tbCode, "Doppelklick kopiert den Code in die Zwischenablage");
-			y += l.Pitch;
-
-			// ----- Row 2: key -----
+			// ----- Row 3: key -----
 			l.AddLabel("TOTP Key:", l.LabelX, y);
 
 			m_tbKey = new SecureTextBoxEx();
@@ -131,8 +120,12 @@ namespace BetterPass
 			l.Add(m_tbKey);
 			m_tt.SetToolTip(m_tbKey, "Base32-Secret oder kompletter otpauth://-Link");
 
+			// Same look as KeePass' own show/hide button of the password row
 			m_btnShowKey = new Button();
-			m_btnShowKey.Text = "\u2022\u2022\u2022";
+			m_btnShowKey.Name = "bp_btnShowTotpKey"; // Gets the modern eye icon (IconSet)
+			CheckBox cbHidePw = EntryFormLayout.FindControl<CheckBox>(m_form, "m_cbHidePassword");
+			if((cbHidePw != null) && (cbHidePw.Image != null)) m_btnShowKey.Image = cbHidePw.Image;
+			else m_btnShowKey.Text = "\u2022\u2022\u2022";
 			m_btnShowKey.Bounds = new Rectangle(l.ButtonX, y + (nTbH - l.ButtonHeight) / 2,
 				l.ButtonWidth, l.ButtonHeight);
 			m_btnShowKey.UseVisualStyleBackColor = true;
@@ -219,10 +212,10 @@ namespace BetterPass
 			m_cmbAlg.Enabled = !bRO;
 			m_tbIssuer.ReadOnly = bRO;
 
-			string strTip = "Doppelklick kopiert den Code in die Zwischenablage";
+			string strTip = TipCopy;
 			if(m_bLocked)
 				strTip = "Nur Anzeige: " + m_strLockNote + ".\r\nBearbeitung im Tab \"Advanced\".";
-			m_tt.SetToolTip(m_tbCode, strTip);
+			m_tt.SetToolTip(m_view, strTip);
 			m_tt.SetToolTip(m_tbKey, (m_bLocked ? strTip : "Base32-Secret oder kompletter otpauth://-Link"));
 		}
 
@@ -466,18 +459,21 @@ namespace BetterPass
 
 		private void UpdateCode()
 		{
-			if(m_tbCode == null) return;
+			if(m_view == null) return;
 			int nPeriod = (int)m_nudPeriod.Value;
 
 			if(!m_bCanGenerate || m_bSecretInvalid || (m_pbSecret == null))
 			{
 				m_strCurrentCode = string.Empty;
-				m_ring.SetState(false, 0, nPeriod);
 
-				if(m_bSecretInvalid) SetCodeText("Ung\u00fcltiger Key", ThemeManager.ErrorColor);
-				else if(!m_bCanGenerate && m_bLocked) SetCodeText(m_strLockNote, ThemeManager.DimTextColor);
+				if(m_bSecretInvalid)
+					m_view.ShowMessage("Ung\u00fcltiger Key \u2013 erwartet wird ein Base32-Secret " +
+						"oder ein otpauth://-Link.", true);
+				else if(!m_bCanGenerate && m_bLocked) m_view.ShowMessage(m_strLockNote, false);
 				else if(!m_bCanGenerate) { } // Keep the message set by OnKeyTextChanged
-				else SetCodeText(string.Empty, ThemeManager.TextColor);
+				else if(m_bViewOnly) m_view.ShowMessage("Kein TOTP eingerichtet.", false);
+				else m_view.ShowMessage("Kein TOTP eingerichtet. Key oder otpauth://-Link " +
+					"unten einf\u00fcgen.", false);
 				return;
 			}
 
@@ -488,22 +484,14 @@ namespace BetterPass
 				string strCode = TotpGenerator.Generate(pb, (int)m_nudDigits.Value, nPeriod,
 					GetSelectedAlg(), DateTime.UtcNow, out nRemaining);
 				m_strCurrentCode = strCode;
-				SetCodeText(TotpGenerator.FormatCode(strCode), ThemeManager.TextColor);
-				m_ring.SetState(true, nRemaining, nPeriod);
+				m_view.ShowCode(strCode, nRemaining, nPeriod);
 			}
 			catch(Exception)
 			{
 				m_strCurrentCode = string.Empty;
-				SetCodeText("Fehler bei der Berechnung", ThemeManager.ErrorColor);
-				m_ring.SetState(false, 0, nPeriod);
+				m_view.ShowMessage("Der Code konnte nicht berechnet werden.", true);
 			}
 			finally { Array.Clear(pb, 0, pb.Length); }
-		}
-
-		private void SetCodeText(string strText, Color clr)
-		{
-			if(m_tbCode.Text != strText) m_tbCode.Text = strText;
-			if(m_tbCode.ForeColor != clr) m_tbCode.ForeColor = clr;
 		}
 
 		// ===================== Events =====================
@@ -530,9 +518,8 @@ namespace BetterPass
 					m_bCanGenerate = false;
 					string strReason = "otpauth-Link wird nicht unterst\u00fctzt" +
 						(((oa != null) && (oa.Note.Length > 0)) ? (": " + oa.Note) : ".");
-					SetCodeText(strReason, ThemeManager.ErrorColor);
+					m_view.ShowMessage(strReason, true);
 					m_tt.SetToolTip(m_tbKey, strReason);
-					m_ring.SetState(false, 0, (int)m_nudPeriod.Value);
 					m_strCurrentCode = string.Empty;
 					return;
 				}
@@ -594,11 +581,11 @@ namespace BetterPass
 			m_tbKey.EnableProtection(!m_tbKey.UseSystemPasswordChar);
 		}
 
-		private void OnCodeDoubleClick(object sender, EventArgs e)
+		private void OnCopyRequested(object sender, EventArgs e)
 		{
 			if(m_strCurrentCode.Length == 0) return;
-			ClipboardUtil.Copy(m_strCurrentCode, false, true, m_form.EntryRef, null,
-				m_form.Handle);
+			if(ClipboardUtil.Copy(m_strCurrentCode, false, true, m_form.EntryRef, null,
+				m_form.Handle)) m_view.ConfirmCopied();
 		}
 
 		private void OnTimerTick(object sender, EventArgs e)
@@ -642,8 +629,6 @@ namespace BetterPass
 		private void OnFormDisposed(object sender, EventArgs e)
 		{
 			m_form.Disposed -= this.OnFormDisposed;
-			if(m_fontCode != null) { m_fontCode.Dispose(); m_fontCode = null; }
-			if(m_fontRing != null) { m_fontRing.Dispose(); m_fontRing = null; }
 		}
 	}
 }

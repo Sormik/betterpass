@@ -9,9 +9,16 @@ using KeePass.App.Configuration;
 
 namespace BetterPass
 {
+	internal enum ThemeDesign
+	{
+		Classic = 0,    // KeePass' own look, BetterPass changes nothing
+		Windows11 = 1,
+		Aethercert = 2
+	}
+
 	internal enum ThemeMode
 	{
-		Off = 0,
+		Light = 0,
 		Dark = 1,
 		System = 2
 	}
@@ -43,20 +50,42 @@ namespace BetterPass
 		}
 
 		// ---------- Theme ----------
-		public static ThemeMode Theme
+		public static ThemeDesign Design
+		{
+			get
+			{
+				string s = GetString("Theme.Design", string.Empty);
+				if(s == "classic") return ThemeDesign.Classic;
+				if(s == "aethercert") return ThemeDesign.Aethercert;
+				if(s == "win11") return ThemeDesign.Windows11;
+
+				// Up to 1.0, "Theme.Mode" was off/dark/system
+				if(GetString("Theme.Mode", "system") == "off") return ThemeDesign.Classic;
+				return ThemeDesign.Windows11;
+			}
+			set
+			{
+				string s = "win11";
+				if(value == ThemeDesign.Classic) s = "classic";
+				else if(value == ThemeDesign.Aethercert) s = "aethercert";
+				SetString("Theme.Design", s);
+			}
+		}
+
+		public static ThemeMode ColorMode
 		{
 			get
 			{
 				string s = GetString("Theme.Mode", "system");
 				if(s == "dark") return ThemeMode.Dark;
-				if(s == "off") return ThemeMode.Off;
-				return ThemeMode.System;
+				if(s == "light") return ThemeMode.Light;
+				return ThemeMode.System; // also the old "off"
 			}
 			set
 			{
 				string s = "system";
 				if(value == ThemeMode.Dark) s = "dark";
-				else if(value == ThemeMode.Off) s = "off";
+				else if(value == ThemeMode.Light) s = "light";
 				SetString("Theme.Mode", s);
 			}
 		}

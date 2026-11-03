@@ -25,7 +25,8 @@ namespace BetterPass
 
 		private CheckBox m_cbTotpShow;
 		private CheckBox m_cbTotpHide;
-		private ComboBox m_cmbTheme;
+		private ComboBox m_cmbDesign;
+		private ComboBox m_cmbMode;
 		private CheckBox m_cbHibpEntry;
 		private CheckBox m_cbHibpAuto;
 		private CheckBox m_cbHibpOpen;
@@ -161,14 +162,31 @@ namespace BetterPass
 		private void BuildTheme()
 		{
 			FlowLayoutPanel flp = AddGroup("Darstellung");
-			m_cmbTheme = new ComboBox();
-			m_cmbTheme.DropDownStyle = ComboBoxStyle.DropDownList;
-			m_cmbTheme.Items.AddRange(new object[] { "Aus", "Dunkel", "Wie Windows" });
-			m_cmbTheme.Width = 160;
-			AddRow(flp, "Darkmode:", m_cmbTheme);
-			AddNote(flp, "Das Einschalten wirkt sofort. Das Ausschalten wird nach einem " +
-				"Neustart von KeePass vollst\u00e4ndig wirksam. Im Hochkontrastmodus von " +
-				"Windows bleibt der Darkmode aus.");
+
+			// Order matches ThemeDesign / ThemeMode
+			m_cmbDesign = new ComboBox();
+			m_cmbDesign.DropDownStyle = ComboBoxStyle.DropDownList;
+			m_cmbDesign.Items.AddRange(new object[] { "Klassisch (KeePass)", "Windows 11", "aethercert" });
+			m_cmbDesign.Width = 180;
+			AddRow(flp, "Design:", m_cmbDesign);
+
+			m_cmbMode = new ComboBox();
+			m_cmbMode.DropDownStyle = ComboBoxStyle.DropDownList;
+			m_cmbMode.Items.AddRange(new object[] { "Hell", "Dunkel", "Wie Windows" });
+			m_cmbMode.Width = 180;
+			AddRow(flp, "Farbmodus:", m_cmbMode);
+
+			m_cmbDesign.SelectedIndexChanged += delegate(object sender, EventArgs e)
+			{
+				m_cmbMode.Enabled = (m_cmbDesign.SelectedIndex != (int)ThemeDesign.Classic);
+			};
+
+			AddNote(flp, "Windows 11: flache Fl\u00e4chen, Haarlinien und die Akzentfarbe von " +
+				"Windows. aethercert: Farben und Formen des aethercert-Brandkits. Beide " +
+				"gelten f\u00fcr Hauptfenster, Men\u00fcs, Dialoge und Eingabefelder.");
+			AddNote(flp, "\u00c4nderungen wirken sofort. Zur\u00fcck zu \u201eKlassisch\u201c " +
+				"wird nach einem Neustart von KeePass vollst\u00e4ndig wirksam. Im " +
+				"Hochkontrastmodus von Windows bleibt KeePass klassisch.");
 		}
 
 		private void BuildHibp()
@@ -243,8 +261,9 @@ namespace BetterPass
 		{
 			FlowLayoutPanel flp = AddGroup("\u00dcber");
 			string strVer = typeof(OptionsPanel).Assembly.GetName().Version.ToString(3);
-			AddNote(flp, "BetterPass " + strVer + " \u2013 TOTP-Felder, Darkmode, " +
-				"Have-I-Been-Pwned-Pr\u00fcfung und Marken-Icons f\u00fcr KeePass 2.x.");
+			AddNote(flp, "BetterPass " + strVer + " \u2013 TOTP-Felder, modernes Design " +
+				"(Windows 11 oder aethercert, hell und dunkel), Have-I-Been-Pwned-Pr\u00fcfung " +
+				"und Marken-Icons f\u00fcr KeePass 2.x.");
 		}
 
 		// ===================== Load / save =====================
@@ -254,8 +273,9 @@ namespace BetterPass
 			m_cbTotpShow.Checked = BpConfig.TotpShowFields;
 			m_cbTotpHide.Checked = BpConfig.TotpHideKey;
 
-			ThemeMode tm = BpConfig.Theme;
-			m_cmbTheme.SelectedIndex = ((tm == ThemeMode.Off) ? 0 : ((tm == ThemeMode.Dark) ? 1 : 2));
+			m_cmbDesign.SelectedIndex = (int)BpConfig.Design;
+			m_cmbMode.SelectedIndex = (int)BpConfig.ColorMode;
+			m_cmbMode.Enabled = (BpConfig.Design != ThemeDesign.Classic);
 
 			m_cbHibpEntry.Checked = BpConfig.HibpEntryCheck;
 			m_cbHibpAuto.Checked = BpConfig.HibpAutoCheck;
@@ -275,9 +295,12 @@ namespace BetterPass
 			BpConfig.TotpShowFields = m_cbTotpShow.Checked;
 			BpConfig.TotpHideKey = m_cbTotpHide.Checked;
 
-			int iTheme = m_cmbTheme.SelectedIndex;
-			BpConfig.Theme = ((iTheme == 0) ? ThemeMode.Off : ((iTheme == 1) ? ThemeMode.Dark :
-				ThemeMode.System));
+			int iDesign = m_cmbDesign.SelectedIndex;
+			BpConfig.Design = (((iDesign >= 0) && (iDesign <= 2)) ? (ThemeDesign)iDesign :
+				ThemeDesign.Windows11);
+			int iMode = m_cmbMode.SelectedIndex;
+			BpConfig.ColorMode = (((iMode >= 0) && (iMode <= 2)) ? (ThemeMode)iMode :
+				ThemeMode.System);
 
 			BpConfig.HibpEntryCheck = m_cbHibpEntry.Checked;
 			BpConfig.HibpAutoCheck = m_cbHibpAuto.Checked;
@@ -301,8 +324,8 @@ namespace BetterPass
 			BpConfig.RaiseChanged();
 
 			if(bRestart)
-				MessageBox.Show(owner, "Der Darkmode wird nach einem Neustart von KeePass " +
-					"vollst\u00e4ndig deaktiviert.", "BetterPass", MessageBoxButtons.OK,
+				MessageBox.Show(owner, "Das klassische Aussehen von KeePass ist nach einem " +
+					"Neustart vollst\u00e4ndig wiederhergestellt.", "BetterPass", MessageBoxButtons.OK,
 					MessageBoxIcon.Information);
 		}
 	}

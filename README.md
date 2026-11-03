@@ -13,7 +13,7 @@ BetterPass erweitert KeePass 2.x (ab Version 2.47) um vier Funktionen. Alle Eins
 ### TOTP-Felder im Eintragsdialog
 Im Tab **General** stehen unter **URL** folgende Felder:
 
-- **TOTP Code**: der aktuelle Code mit Countdown-Ring. Ein Doppelklick kopiert ihn. Die Zwischenablage wird nach dem eingestellten KeePass-Timeout automatisch geleert.
+- **TOTP Code**: eine flache Karte mit dem aktuellen Code in großer Schrift (die Zifferngruppen trennt ein gezeichneter Strich, der nie mitkopiert wird), einem schmalen Countdown-Ring (in den letzten 5 Sekunden orange) und einem Kopieren-Button. Kopieren geht auch per Doppelklick, Leertaste oder Strg+C. Die Zwischenablage wird nach dem eingestellten KeePass-Timeout automatisch geleert. Ohne Key oder bei ungültigem Key zeigt die Karte einen Hinweis.
 - **TOTP Key**: standardmäßig maskiert. Ein eingefügter `otpauth://totp/...`-Link füllt alle Felder automatisch aus, dazu Titel und Benutzername, wenn diese noch leer sind.
 - **Digits** (1–8), **Period**, **Algorithm** (SHA-1, SHA-256, SHA-512) und **Issuer**.
 
@@ -36,11 +36,16 @@ Das Secret liegt im Speicher verschlüsselt vor (`ProtectedBinary` bzw. `SecureT
 - Der Katalog (ca. 3,5 MB) und die geladenen SVGs liegen zwischengespeichert in `%LOCALAPPDATA%\KeePass\BetterPass\thesvg`.
 - Alle Downloads laufen über die Netzwerkfunktionen von KeePass. Damit gelten deine Proxy- und TLS-Einstellungen. Die Marken gehören ihren jeweiligen Inhabern.
 
-### Darkmode
-- Zur Wahl stehen **Aus**, **Dunkel** und **Wie Windows**. Bei „Wie Windows“ folgt KeePass der Windows-Einstellung für Apps.
-- Gefärbt werden Hauptfenster, Dialoge, Menüs, Symbolleisten, Listen, Tabs und die Titelleiste (ab Windows 10).
-- Das Einschalten wirkt sofort. Das Ausschalten wird erst nach einem Neustart von KeePass vollständig wirksam.
-- Im Hochkontrastmodus von Windows bleibt der Darkmode aus. Native Windows-Elemente bleiben hell, zum Beispiel Meldungsfenster, Datei-Dialoge und das Standard-Kontextmenü in Textfeldern.
+### Modernes Design
+- **Design:** *Klassisch (KeePass)*, *Windows 11* oder *aethercert*. **Farbmodus:** *Hell*, *Dunkel* oder *Wie Windows* (folgt der Windows-Einstellung für Apps).
+- **Windows 11:** neutrale Flächen im Stil von Windows 11, dazu die Akzentfarbe von Windows (für den Hauptbutton, Fokus, Tab-Markierung und den TOTP-Countdown).
+- **aethercert:** die „Leather“-Farben des aethercert-Brandkits: Papier und Tinte, Leder für Struktur, Gold nur als einzelne Akzentlinie (Tab-Markierung, Dialogkopf). Warnungen sind orange, Radien 6 px, der TOTP-Code steht in einer Monospace-Schrift.
+- **Eingabefelder:** abgerundet und mit etwas Innenabstand. Bei Windows 11 haben sie eine dunklere Unterkante, mit Fokus eine 2 px breite Linie in der Akzentfarbe und eine leicht veränderte Füllung. Bei aethercert haben sie den „input“-Rahmen des Brandkits und mit Fokus einen 2 px breiten Ring in der „ring“-Farbe. Das gilt für Textfelder, Auswahllisten, Zahlen- und Datumsfelder. Listen und Bäume bekommen einen abgerundeten Haarlinienrahmen.
+- **Icons:** alle Icons in Menüs, Symbolleiste, Kontext- und Tray-Menü, in den Dialog-Buttons (Passwort anzeigen, Generator, Kalender, Tools, Hilfe …), im Dialogkopf sowie die 69 Standard-Icons für Einträge und Gruppen sind einfarbige Fluent-Icons aus der Windows-Symbolschrift (*Segoe Fluent Icons*, unter Windows 10 *Segoe MDL2 Assets*) in der Textfarbe des Designs. Abgelaufene und Warn-Einträge sind farbig markiert. Eigene Icons (z. B. Marken-Icons) bleiben unverändert. Ohne diese Schrift behält KeePass seine Icons.
+- Ohne Schatten und 3D-Rahmen: Buttons und Checkboxen sind flach und abgerundet, Spin-Buttons und Auswahllisten flach. Tabs haben eine Markierung unter dem aktiven Tab, Menüs abgerundete Hover-Flächen und unter Windows 11 abgerundete Popups. Der Verlaufs-Banner der Dialoge wird flach, die Titelleiste hat die Fensterfarbe (Windows 11), und die Passwortqualität ist ein flacher Balken.
+- Designwechsel wirken sofort. Zurück zu *Klassisch* wird erst nach einem Neustart von KeePass vollständig wirksam.
+- Im Hochkontrastmodus von Windows bleibt KeePass klassisch. Native Windows-Elemente behalten ihr Aussehen, zum Beispiel Meldungsfenster, Datei-Dialoge, Datumsauswahl und das Standard-Kontextmenü in Textfeldern.
+- Bisherige Einstellungen werden übernommen: *Darkmode aus* wird zu *Klassisch*, *Dunkel* und *Wie Windows* zu *Windows 11* mit demselben Farbmodus.
 
 ## Installation
 
@@ -76,10 +81,10 @@ Den TOTP-Teil gab es zuvor als separates Plugin **TotpFields**. Falls du es inst
 ```
 BetterPassExt.cs         Einstieg, Menüs, Fenster-Hooks
 Core/                    Einstellungen, Netzwerk, Layout-Helfer für den Eintragsdialog
-Totp/                    TOTP-Berechnung, Ring, Felder im Eintragsdialog
+Totp/                    TOTP-Berechnung, Code-Karte, Felder im Eintragsdialog
 Hibp/                    Have-I-Been-Pwned-Client, Dialogzeile, Datenbankprüfung
 Icons/                   theSVG-Katalog, SVG-Renderer (GDI+), Auswahl-Dialog
-Theme/                   Darkmode
+Theme/                   Design (Windows 11, aethercert), Painter für Steuerelemente
 Options/                 Einstellungs-Tab und -Dialog
 UI/                      Fortschrittsdialog
 ```
