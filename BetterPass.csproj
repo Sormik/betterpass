@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Release</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{3C8E5B1A-7D42-4F0B-9A6E-2B5D8C1F4E70}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>BetterPass</RootNamespace>
+    <AssemblyName>BetterPass</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <LangVersion>5</LangVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>none</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+  </PropertyGroup>
+  <ItemGroup>
+    <!-- Only used for Visual Studio builds; PLGX compilation references the running KeePass.exe -->
+    <Reference Include="KeePass">
+      <HintPath>C:\Program Files\KeePass Password Safe 2\KeePass.exe</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="BetterPassExt.cs" />
+    <Compile Include="Core\BpConfig.cs" />
+    <Compile Include="Core\EntryFormLayout.cs" />
+    <Compile Include="Core\Net.cs" />
+    <Compile Include="Hibp\HibpClient.cs" />
+    <Compile Include="Hibp\HibpDatabaseCheck.cs" />
+    <Compile Include="Hibp\HibpSection.cs" />
+    <Compile Include="Icons\IconAssigner.cs" />
+    <Compile Include="Icons\IconPickerForm.cs" />
+    <Compile Include="Icons\SvgPathParser.cs" />
+    <Compile Include="Icons\SvgRenderer.cs" />
+    <Compile Include="Icons\TheSvgCatalog.cs" />
+    <Compile Include="Options\OptionsPanel.cs" />
+    <Compile Include="Options\OptionsUi.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Theme\DarkToolStripRenderer.cs" />
+    <Compile Include="Theme\NativeHelpers.cs" />
+    <Compile Include="Theme\ThemeManager.cs" />
+    <Compile Include="Theme\ThemeNative.cs" />
+    <Compile Include="Totp\TotpGenerator.cs" />
+    <Compile Include="Totp\TotpRing.cs" />
+    <Compile Include="Totp\TotpSection.cs" />
+    <Compile Include="UI\ProgressForm.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
