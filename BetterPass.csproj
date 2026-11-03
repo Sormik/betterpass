@@ -49,12 +49,16 @@
     <Compile Include="Options\OptionsPanel.cs" />
     <Compile Include="Options\OptionsUi.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Theme\DarkToolStripRenderer.cs" />
+    <Compile Include="Theme\BannerPainter.cs" />
+    <Compile Include="Theme\IconSet.cs" />
+    <Compile Include="Theme\ModernPainters.cs" />
+    <Compile Include="Theme\ModernToolStripRenderer.cs" />
     <Compile Include="Theme\NativeHelpers.cs" />
     <Compile Include="Theme\ThemeManager.cs" />
     <Compile Include="Theme\ThemeNative.cs" />
+    <Compile Include="Theme\ThemePalette.cs" />
+    <Compile Include="Totp\TotpCodeView.cs" />
     <Compile Include="Totp\TotpGenerator.cs" />
-    <Compile Include="Totp\TotpRing.cs" />
     <Compile Include="Totp\TotpSection.cs" />
     <Compile Include="UI\ProgressForm.cs" />
   </ItemGroup>

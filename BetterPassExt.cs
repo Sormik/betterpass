@@ -8,7 +8,7 @@
     period, algorithm, issuer)
   - Have I Been Pwned check (entry dialog and whole database)
   - Brand icons from thesvg.org
-  - Dark mode
+  - Modern design: Windows 11 or aethercert, light or dark
   - Settings: Tools > Options > BetterPass, or Tools > BetterPass
 */
 
