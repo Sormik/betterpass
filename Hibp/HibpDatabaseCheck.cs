@@ -1,5 +1,7 @@
 /*
   BetterPass - KeePass plugin
+  Copyright (C) 2026 Simon Müller
+  SPDX-License-Identifier: GPL-3.0-or-later
   Checks all passwords of a database against Have I Been Pwned and shows
   the affected entries in KeePass' entry list.
 */

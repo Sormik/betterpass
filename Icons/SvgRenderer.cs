@@ -1,5 +1,7 @@
 /*
   BetterPass - KeePass plugin
+  Copyright (C) 2026 Simon Müller
+  SPDX-License-Identifier: GPL-3.0-or-later
   Compact SVG renderer (GDI+) for brand icons.
 
   Supported: svg, g, a, switch, path, rect, circle, ellipse, line, polyline,

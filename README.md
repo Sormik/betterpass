@@ -1,5 +1,9 @@
 # BetterPass – Plugin für KeePass 2.x
 
+[English](README.en.md) · **Deutsch**
+
+[![Lizenz: GPL-3.0-or-later](https://img.shields.io/badge/Lizenz-GPL--3.0--or--later-blue.svg)](LICENSE) [![Release](https://img.shields.io/github/v/release/Sormik/betterpass)](https://github.com/Sormik/betterpass/releases/latest)
+
 BetterPass erweitert KeePass 2.x (ab Version 2.47) um fünf Funktionen. Alle Einstellungen findest du unter **Tools → Options → BetterPass** oder unter **Tools → BetterPass → Einstellungen**.
 
 > **Status:** Version 1.1.0. Profile und Passworterzeugung des Passwort-Generators sind mit KeePass 2.62 unter Windows 11 getestet, die Dialoge und die übrigen Funktionen noch nicht von Hand. Die Bilder unten sind gerenderte Vorschauen der geplanten Oberfläche, keine echten Screenshots.
@@ -67,7 +71,13 @@ BetterPass legt in KeePass' Passwort-Generator diese Profile an:
 
 ## Installation
 
-### Variante A: PLGX (empfohlen, ohne Visual Studio)
+### Variante A: PLGX herunterladen (am einfachsten)
+
+1. `BetterPass.plgx` aus dem [neuesten Release](https://github.com/Sormik/betterpass/releases/latest) herunterladen.
+2. In den KeePass-Ordner `Plugins` kopieren (z. B. `C:\Program Files\KeePass Password Safe 2\Plugins`) und eine ältere `BetterPass.plgx` ersetzen.
+3. KeePass neu starten.
+
+### Variante B: PLGX selbst bauen (ohne Visual Studio)
 
 1. Den Ordner `BetterPass` ablegen, z. B. unter `C:\Build\BetterPass`.
 2. In der Eingabeaufforderung ausführen:
@@ -81,7 +91,7 @@ KeePass kompiliert das Plugin beim ersten Start selbst. Dafür genügt das unter
 
 **Wenn KeePass beim Start einen Fehler meldet:** KeePass mit `KeePass.exe --debug` starten und das Plugin erneut laden. Die Compiler-Meldungen landen dann in einer Datei im Temp-Ordner. Diese Meldungen brauche ich zur Fehlerbehebung.
 
-### Variante B: DLL mit Visual Studio oder MSBuild
+### Variante C: DLL mit Visual Studio oder MSBuild
 
 1. In `BetterPass.csproj` den `HintPath` auf deine `KeePass.exe` anpassen.
 2. Bauen: `msbuild BetterPass.csproj /p:Configuration=Release`
@@ -108,3 +118,13 @@ PwGen/                   Passwort-Generator: Silben-Generator (Apple-Stil), Prof
 UI/                      Fortschrittsdialog
 ```
 Der gesamte Code ist C# 5, damit KeePass ihn als PLGX kompilieren kann.
+
+## Mitmachen
+Fehlerberichte, Ideen und Pull Requests sind willkommen, auf Deutsch oder Englisch. Wie es geht, steht in [CONTRIBUTING.md](CONTRIBUTING.md). Sicherheitslücken bitte nicht öffentlich melden, sondern wie in [SECURITY.md](SECURITY.md) beschrieben. Es gilt der [Verhaltenskodex](CODE_OF_CONDUCT.md). Alle Änderungen stehen im [CHANGELOG](CHANGELOG.md).
+
+## Lizenz
+Copyright (C) 2026 Simon Müller
+
+BetterPass ist freie Software unter der [GNU General Public License, Version 3 oder neuer](LICENSE) (GPL-3.0-or-later). Du darfst das Plugin nutzen, verändern und weitergeben. Wer veränderte Versionen weitergibt, muss deren Quellcode unter derselben Lizenz bereitstellen. BetterPass wird ohne jede Gewährleistung bereitgestellt.
+
+BetterPass ist ein Plugin für [KeePass](https://keepass.info/) und steht in keiner Verbindung zum KeePass-Projekt. Apple, Google, Microsoft, Mozilla, 1Password, Bitwarden und alle weiteren genannten Namen sind Marken ihrer jeweiligen Inhaber. Sie werden nur genannt, um das nachgebildete Passwortformat zu beschreiben. Details zu Marken und externen Diensten stehen in [NOTICE.md](NOTICE.md).

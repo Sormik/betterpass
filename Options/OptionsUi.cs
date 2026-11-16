@@ -1,5 +1,7 @@
 /*
   BetterPass - KeePass plugin
+  Copyright (C) 2026 Simon Müller
+  SPDX-License-Identifier: GPL-3.0-or-later
   - OptionsFormExtender: adds a "BetterPass" tab to Tools > Options
   - OptionsDialog: standalone settings dialog (Tools > BetterPass > Einstellungen)
 */

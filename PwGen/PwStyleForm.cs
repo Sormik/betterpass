@@ -1,5 +1,7 @@
 /*
   BetterPass - KeePass plugin
+  Copyright (C) 2026 Simon Müller
+  SPDX-License-Identifier: GPL-3.0-or-later
   Options of the syllable password generator (Apple style), with a live
   preview. Opened by the "Options" button in KeePass' password generator
   dialog and from Tools > Options > BetterPass.

@@ -1,12 +1,18 @@
+/*
+  BetterPass - KeePass plugin
+  Copyright (C) 2026 Simon Müller
+  SPDX-License-Identifier: GPL-3.0-or-later
+*/
+
 using System.Reflection;
 using System.Runtime.InteropServices;
 
 [assembly: AssemblyTitle("BetterPass")]
-[assembly: AssemblyDescription("TOTP fields, dark mode, Have I Been Pwned checks and brand icons for KeePass.")]
+[assembly: AssemblyDescription("TOTP fields, modern design, Have I Been Pwned checks, brand icons and password generator profiles for KeePass.")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Simon")]
+[assembly: AssemblyCompany("Simon Müller")]
 [assembly: AssemblyProduct("KeePass Plugin")] // Required by KeePass for DLL plugins
-[assembly: AssemblyCopyright("")]
+[assembly: AssemblyCopyright("Copyright © 2026 Simon Müller, GPL-3.0-or-later")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

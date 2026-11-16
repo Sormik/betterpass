@@ -1,5 +1,7 @@
 /*
   BetterPass - KeePass plugin
+  Copyright (C) 2026 Simon Müller
+  SPDX-License-Identifier: GPL-3.0-or-later
   TOTP rows in the entry dialog: code (with countdown), key, digits, period,
   algorithm and issuer.
 

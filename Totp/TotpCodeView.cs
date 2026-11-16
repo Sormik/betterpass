@@ -1,5 +1,7 @@
 /*
   BetterPass - KeePass plugin
+  Copyright (C) 2026 Simon Müller
+  SPDX-License-Identifier: GPL-3.0-or-later
   The current TOTP code as a flat card: large code, thin countdown ring
   with the remaining seconds, copy button. No shadows, no 3D borders; a
   hairline border that turns into the focus color when focused.

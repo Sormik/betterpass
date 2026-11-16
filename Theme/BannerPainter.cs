@@ -1,5 +1,7 @@
 /*
   BetterPass - KeePass plugin
+  Copyright (C) 2026 Simon Müller
+  SPDX-License-Identifier: GPL-3.0-or-later
   Dialog banners (the strip at the top of KeePass dialogs) in the theme's
   colors: flat surface, icon, title and description, a hairline below.
   The aethercert design adds its gold accent line above the title.

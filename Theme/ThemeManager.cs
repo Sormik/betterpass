@@ -1,5 +1,7 @@
 /*
   BetterPass - KeePass plugin
+  Copyright (C) 2026 Simon Müller
+  SPDX-License-Identifier: GPL-3.0-or-later
   Modern design for KeePass' main window and dialogs: Windows 11 or
   aethercert, each light or dark (see ThemePalette).
 

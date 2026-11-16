@@ -1,5 +1,7 @@
 /*
   BetterPass - KeePass plugin
+  Copyright (C) 2026 Simon Müller
+  SPDX-License-Identifier: GPL-3.0-or-later
   Syllable password generator (Apple style), registered through KeePass'
   standard interface for custom password generators. In KeePass' password
   generator dialog it appears under "Generate using custom algorithm";

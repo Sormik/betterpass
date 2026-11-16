@@ -1,5 +1,7 @@
 /*
   BetterPass - KeePass plugin
+  Copyright (C) 2026 Simon Müller
+  SPDX-License-Identifier: GPL-3.0-or-later
   Settings panel, used as a tab in KeePass' options dialog
   (Tools > Options > BetterPass) and in the standalone settings dialog.
 */

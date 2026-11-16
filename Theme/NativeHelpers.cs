@@ -1,5 +1,7 @@
 /*
   BetterPass - KeePass plugin
+  Copyright (C) 2026 Simon Müller
+  SPDX-License-Identifier: GPL-3.0-or-later
   Window subclasses for controls that WinForms cannot color by itself:
   - TabControlPainter: flat tab strip (text tabs, accent marker under the
     selected tab, hairline below the strip, no frame around the page)

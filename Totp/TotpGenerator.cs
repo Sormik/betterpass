@@ -1,5 +1,7 @@
 /*
   BetterPass - KeePass plugin
+  Copyright (C) 2026 Simon Müller
+  SPDX-License-Identifier: GPL-3.0-or-later
   TOTP (RFC 6238), Base32 (RFC 4648) and otpauth:// URI handling.
 
   All code in this plugin is C# 5, so that KeePass can compile it as PLGX.

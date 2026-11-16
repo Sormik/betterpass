@@ -1,5 +1,7 @@
 /*
   BetterPass - KeePass plugin
+  Copyright (C) 2026 Simon Müller
+  SPDX-License-Identifier: GPL-3.0-or-later
   Entry point. KeePass requires: namespace == assembly name,
   plugin class name == namespace + "Ext".
 

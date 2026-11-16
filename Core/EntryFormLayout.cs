@@ -1,5 +1,7 @@
 /*
   BetterPass - KeePass plugin
+  Copyright (C) 2026 Simon Müller
+  SPDX-License-Identifier: GPL-3.0-or-later
   Inserts rows into the "General" tab of KeePass' entry dialog.
 
   All geometry is derived from KeePass' own controls, so DPI scaling and

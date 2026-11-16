@@ -1,5 +1,7 @@
 /*
   BetterPass - KeePass plugin
+  Copyright (C) 2026 Simon Müller
+  SPDX-License-Identifier: GPL-3.0-or-later
   Password generator profiles in the style of well-known password
   managers and browsers. They are ordinary KeePass profiles:
   - Apple uses the BetterPass syllable generator (custom algorithm),

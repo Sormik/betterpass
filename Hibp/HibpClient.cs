@@ -1,5 +1,7 @@
 /*
   BetterPass - KeePass plugin
+  Copyright (C) 2026 Simon Müller
+  SPDX-License-Identifier: GPL-3.0-or-later
   Have I Been Pwned - Pwned Passwords range API (k-anonymity).
 
   Only the first 5 hex characters of the SHA-1 hash leave the computer.

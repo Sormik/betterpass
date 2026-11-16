@@ -1,5 +1,7 @@
 /*
   BetterPass - KeePass plugin
+  Copyright (C) 2026 Simon Müller
+  SPDX-License-Identifier: GPL-3.0-or-later
   Settings of the syllable password generator (Apple style), e.g.
   "hupvEw-bawpo6-xisqof":
   - groups of pronounceable letters (consonant-vowel-consonant-

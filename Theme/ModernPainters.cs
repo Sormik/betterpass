@@ -1,5 +1,7 @@
 /*
   BetterPass - KeePass plugin
+  Copyright (C) 2026 Simon Müller
+  SPDX-License-Identifier: GPL-3.0-or-later
   Flat, Windows 11 style painting for standard WinForms controls. No 3D
   borders, gradients or shadows: hairline borders, rounded buttons and
   check boxes, flat spin buttons and drop-downs.

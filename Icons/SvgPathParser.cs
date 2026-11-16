@@ -1,5 +1,7 @@
 /*
   BetterPass - KeePass plugin
+  Copyright (C) 2026 Simon Müller
+  SPDX-License-Identifier: GPL-3.0-or-later
   SVG path data ("d" attribute) to GDI+ GraphicsPath.
   Supports M L H V C S Q T A Z (absolute and relative).
 */

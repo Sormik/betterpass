@@ -1,5 +1,7 @@
 /*
   BetterPass - KeePass plugin
+  Copyright (C) 2026 Simon Müller
+  SPDX-License-Identifier: GPL-3.0-or-later
   Flat renderer for menus, toolbars, context menus and status bars:
   rounded hover highlights, hairline separators, no gradients, no grip and
   no separate image margin. On Windows 11 popups get rounded corners from

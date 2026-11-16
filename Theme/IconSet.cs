@@ -1,5 +1,7 @@
 /*
   BetterPass - KeePass plugin
+  Copyright (C) 2026 Simon Müller
+  SPDX-License-Identifier: GPL-3.0-or-later
   Modern icons for KeePass: monochrome Fluent line icons from Windows' own
   icon font (Segoe Fluent Icons on Windows 11, Segoe MDL2 Assets on
   Windows 10), drawn in the theme's text color. Nothing is bundled; without
