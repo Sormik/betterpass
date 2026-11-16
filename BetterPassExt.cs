@@ -9,6 +9,8 @@
   - Have I Been Pwned check (entry dialog and whole database)
   - Brand icons from thesvg.org
   - Modern design: Windows 11 or aethercert, light or dark
+  - Password generator profiles: Apple style (default), Chrome, Edge,
+    Firefox, 1Password, Bitwarden; Apple style is customizable
   - Settings: Tools > Options > BetterPass, or Tools > BetterPass
 */
 
@@ -35,6 +37,9 @@ namespace BetterPass
 
 			BpConfig.Initialize(host.CustomConfig);
 			ThemeManager.Initialize(host);
+			BpPwGenerator.Register(host);
+			try { PwProfiles.InstallOnce(); }
+			catch(Exception) { } // Never block KeePass' start
 
 			GlobalWindowManager.WindowAdded += this.OnWindowAdded;
 			host.MainWindow.FileOpened += this.OnFileOpened;
@@ -48,6 +53,7 @@ namespace BetterPass
 			GlobalWindowManager.WindowAdded -= this.OnWindowAdded;
 			m_host.MainWindow.FileOpened -= this.OnFileOpened;
 			ThemeManager.Terminate();
+			BpPwGenerator.Unregister(m_host);
 			m_host = null;
 		}
 

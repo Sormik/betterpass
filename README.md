@@ -1,8 +1,8 @@
 # BetterPass – Plugin für KeePass 2.x
 
-BetterPass erweitert KeePass 2.x (ab Version 2.47) um vier Funktionen. Alle Einstellungen findest du unter **Tools → Options → BetterPass** oder unter **Tools → BetterPass → Einstellungen**.
+BetterPass erweitert KeePass 2.x (ab Version 2.47) um fünf Funktionen. Alle Einstellungen findest du unter **Tools → Options → BetterPass** oder unter **Tools → BetterPass → Einstellungen**.
 
-> **Status:** Version 1.0.0, noch nicht auf Windows getestet. Die Bilder unten sind gerenderte Vorschauen der geplanten Oberfläche, keine echten Screenshots.
+> **Status:** Version 1.1.0. Profile und Passworterzeugung des Passwort-Generators sind mit KeePass 2.62 unter Windows 11 getestet, die Dialoge und die übrigen Funktionen noch nicht von Hand. Die Bilder unten sind gerenderte Vorschauen der geplanten Oberfläche, keine echten Screenshots.
 
 | Eintragsdialog | Darkmode | Icon-Auswahl |
 |---|---|---|
@@ -47,6 +47,24 @@ Das Secret liegt im Speicher verschlüsselt vor (`ProtectedBinary` bzw. `SecureT
 - Im Hochkontrastmodus von Windows bleibt KeePass klassisch. Native Windows-Elemente behalten ihr Aussehen, zum Beispiel Meldungsfenster, Datei-Dialoge, Datumsauswahl und das Standard-Kontextmenü in Textfeldern.
 - Bisherige Einstellungen werden übernommen: *Darkmode aus* wird zu *Klassisch*, *Dunkel* und *Wie Windows* zu *Windows 11* mit demselben Farbmodus.
 
+### Passwort-Generator im Stil bekannter Anbieter
+BetterPass legt in KeePass' Passwort-Generator diese Profile an:
+
+| Profil | Format | Beispiel |
+|---|---|---|
+| **BetterPass: Apple (Safari, iCloud-Schlüsselbund)** – Standard | 3 Gruppen à 6 Silben-Zeichen, genau 1 Großbuchstabe und 1 Ziffer, ca. 72 Bit | `hupvEw-bawpo6-xisqof` |
+| BetterPass: Google Chrome | 15 Zeichen, Klein-/Großbuchstaben und Ziffern, ohne verwechselbare Zeichen | `Fn2RnaY7kb6Ue3e` |
+| BetterPass: Microsoft Edge | 15 Zeichen inkl. Sonderzeichen | `UE-7T2RG0S@^ytX` |
+| BetterPass: Mozilla Firefox | 15 Zeichen inkl. Sonderzeichen, ohne verwechselbare Zeichen | `CEoS@7n:33s8eq%` |
+| BetterPass: 1Password | 20 Zeichen inkl. Sonderzeichen | `!B2Q0ZPylr_+Me-?~6Vb` |
+| BetterPass: Bitwarden | 14 Zeichen, Klein-/Großbuchstaben und Ziffern | `LK3w07AzyO3Lho` |
+
+- Jedes Profil enthält mindestens einen Klein-, einen Großbuchstaben und eine Ziffer (und, wo vorgesehen, ein Sonderzeichen). Die Formate folgen dem, was die Generatoren der Anbieter sichtbar erzeugen. Der Code der Anbieter wird nicht kopiert.
+- Beim ersten Start legt BetterPass die Profile an und macht **Apple zum Standard für neue Einträge**. Danach ändert BetterPass daran nichts mehr. Gelöschte Profile bleiben gelöscht, ein anderer Standard bleibt bestehen.
+- **Auswählen:** im Eintragsdialog über den Generator-Knopf neben dem Passwort oder unter **Tools → Generate Password**.
+- **Anpassen:** In **Tools → Generate Password** ein Profil wählen, ändern und mit dem Speichern-Knopf als eigenes Profil ablegen. Beim Apple-Stil öffnet der Knopf **Options** die Einstellungen: Anzahl Gruppen, Zeichen pro Gruppe, Trennzeichen, Anzahl Großbuchstaben und Ziffern, mit Vorschau und Stärke-Anzeige. Dieselben Einstellungen gibt es unter **Tools → Options → BetterPass → Passwort-Generator**. Dort lassen sich auch der Standard für neue Einträge wählen und gelöschte Profile wiederherstellen.
+- **Standards von KeePass:** Chrome, Edge, Firefox, 1Password und Bitwarden sind normale KeePass-Profile vom Typ *Muster* (Pattern) mit „Zeichen zufällig anordnen“. Sie funktionieren auch ohne BetterPass. Der Apple-Stil nutzt die offizielle KeePass-Schnittstelle für eigene Generatoren (*Generate using custom algorithm*), weil KeePass' eigene Generatoren keinen einzelnen Großbuchstaben an zufälliger Stelle innerhalb fester Gruppen erzeugen können. Ohne BetterPass ist dieses eine Profil nicht nutzbar.
+
 ## Installation
 
 ### Variante A: PLGX (empfohlen, ohne Visual Studio)
@@ -86,6 +104,7 @@ Hibp/                    Have-I-Been-Pwned-Client, Dialogzeile, Datenbankprüfun
 Icons/                   theSVG-Katalog, SVG-Renderer (GDI+), Auswahl-Dialog
 Theme/                   Design (Windows 11, aethercert), Painter für Steuerelemente
 Options/                 Einstellungs-Tab und -Dialog
+PwGen/                   Passwort-Generator: Silben-Generator (Apple-Stil), Profile, Optionen-Dialog
 UI/                      Fortschrittsdialog
 ```
 Der gesamte Code ist C# 5, damit KeePass ihn als PLGX kompilieren kann.

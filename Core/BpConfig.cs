@@ -109,6 +109,15 @@ namespace BetterPass
 			set { SetBool("Hibp.CheckOnOpen", value); }
 		}
 
+		// ---------- Password generator ----------
+		// True once the BetterPass generator profiles have been added to
+		// KeePass and Apple has been made the default (done only once)
+		public static bool PwGenProfilesInstalled
+		{
+			get { return GetBool("PwGen.ProfilesInstalled", false); }
+			set { SetBool("PwGen.ProfilesInstalled", value); }
+		}
+
 		public static bool HibpTagEntries
 		{
 			get { return GetBool("Hibp.TagEntries", false); }

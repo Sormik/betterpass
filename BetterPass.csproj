@@ -49,6 +49,10 @@
     <Compile Include="Options\OptionsPanel.cs" />
     <Compile Include="Options\OptionsUi.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="PwGen\BpPwGenerator.cs" />
+    <Compile Include="PwGen\PwProfiles.cs" />
+    <Compile Include="PwGen\PwStyle.cs" />
+    <Compile Include="PwGen\PwStyleForm.cs" />
     <Compile Include="Theme\BannerPainter.cs" />
     <Compile Include="Theme\IconSet.cs" />
     <Compile Include="Theme\ModernPainters.cs" />
